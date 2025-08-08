@@ -59,7 +59,7 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ needs.build.outputs.version }}
-        name: ${{ needs.build.outputs.version }}
+        name: ${{ inputs.artifact_name }} ${{ needs.build.outputs.version }}
         files: "*.jar"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
