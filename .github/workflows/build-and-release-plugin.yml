@@ -1,0 +1,65 @@
+name: Build Minecraft Plugin
+
+on:
+  workflow_call:
+    inputs:
+      artifact_name:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.extract_version.outputs.version }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: 17
+        
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
+         
+    - name: Grant execute permission to Gradle wrapper
+      run: chmod +x ./gradlew
+
+    - name: Build with Gradle
+      run: ./gradlew shadowJar
+
+    - name: Extract version from gradle.properties
+      id: extract_version
+      run: |
+        VERSION=$(grep "^version=" gradle.properties | cut -d'=' -f2)
+        echo "VERSION=$VERSION"
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+    - name: Upload plugin JAR
+      uses: actions/upload-artifact@v4
+      with:
+          name: ${{ inputs.artifact_name }}
+          path: build/libs/*.jar
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download JAR from build
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.artifact_name }}
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ needs.build.outputs.version }}
+        name: ${{ needs.build.outputs.version }}
+        files: "*.jar"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
