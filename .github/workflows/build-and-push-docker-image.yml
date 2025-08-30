@@ -26,8 +26,8 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     
     - name: Build Docker image
-      run: docker build . --file Dockerfile --tag ghcr.io/ztig3r/{{ inputs.project_name }}:latest
+      run: docker build . --file Dockerfile --tag ghcr.io/ztig3r/${{ inputs.project_name }}:latest
     
     - name: Push Docker image
       run: |
-        docker push ghcr.io/ztig3r/{{ inputs.project_name }}:latest
+        docker push ghcr.io/ztig3r/${{ inputs.project_name }}:latest
