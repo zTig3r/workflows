@@ -31,7 +31,7 @@ jobs:
     - name: Build and push multi-arch Docker image
       run: |
         docker buildx build \
-          --platform linux/amd64,linux/arm64 \
+          --platformlinux/arm64 \
           --push \
           --tag ghcr.io/ztig3r/${{ inputs.project_name }}:latest \
           .
