@@ -58,4 +58,4 @@ jobs:
           REPO=${{ github.repository }}
           VERSION=v${{ steps.version.outputs.version }}
           echo "Triggering JitPack build for $REPO:$VERSION"
-          curl -s "https://jitpack.io/api/builds/$REPO/$VERSION"
+          curl -s "https://jitpack.io/api/builds/github/$REPO/$VERSION"
