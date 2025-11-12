@@ -45,7 +45,7 @@ jobs:
 
       - name: Create Git tag and push
         run: |
-          VERSION=v${{ steps.version.outputs.version }}
+          VERSION=${{ steps.version.outputs.version }}
           echo "Tagging version $VERSION"
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
