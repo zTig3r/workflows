@@ -26,7 +26,7 @@ jobs:
       with:
         repository: 'zTig3r/k8s-deployments'
         path: 'k8s-deployments'
-        token: ${{ secrets.CONFIG_REPO_PAT }}
+        token: ${{ secrets.DEPLOYMENT_REPO_PAT }}
     
     - name: Log in to GitHub Container Registry
       uses: docker/login-action@v3
