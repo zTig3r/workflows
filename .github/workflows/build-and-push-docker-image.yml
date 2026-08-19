@@ -7,7 +7,7 @@ on:
         required: true
         type: string
     secrets:
-      CONFIG_REPO_PAT:
+      DEPLOYMENT_REPO_PAT:
         required: true
 
 permissions:
